@@ -139,3 +139,19 @@ heroku apps:rename the-new-name
 ```
 git push heroku master
 ```
+
+## herokuのウェブプロセスを起動
+```
+heroku ps:scale web=1
+```
+
+## ブラウザでアプリを開く
+```
+heroku open
+```
+
+## heroku場でのデータベースと管理者の作成
+```
+heroku run python manage.py migrate
+heroku run python manage.py createsuperuser
+```
