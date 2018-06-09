@@ -150,8 +150,59 @@ heroku ps:scale web=1
 heroku open
 ```
 
-## heroku場でのデータベースと管理者の作成
+## heroku上でのデータベースと管理者の作成
 ```
 heroku run python manage.py migrate
 heroku run python manage.py createsuperuser
+```
+
+## Django shellの起動・終了
+```
+python manage.py shell
+exit()
+```
+## postモデルのインポート
+```
+from blog.models import Post
+# 全てのポストの表示
+Post.objects.all()
+```
+
+## userモデルのインポート
+```
+from django.contrib.auth.models import User
+# 登録されているユーザの確認
+User.objects.all()
+```
+
+## コンソールからポストを作成
+```
+me = User.objects.get(username='select_from_where')
+Post.objects.create(author = me, title = 'Sample title', text = 'Test')
+# 全てのポストの表示
+Post.objects.all()
+```
+
+## ポストのフィルタリング
+```
+# 作成者
+Post.objects.filter(author=me)
+# タイトル
+Post.objects.filter(title__contains='title')
+# 公開済みのポスト
+from django.utils import timezone
+Post.objects.filter(published_date__lte=timezone.now())
+```
+
+## ポストの公開
+```
+post = Post.objects.get(id=1)
+post.publish()
+```
+
+## オブジェクトの並び替え
+```
+# 作成日による並び替え
+Post.objects.order_by('created_date')
+Post.objects.order_by('-created_date')    # 順序の入れ替え
 ```
