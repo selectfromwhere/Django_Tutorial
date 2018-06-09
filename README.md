@@ -121,3 +121,21 @@ web: gunicorn mysite.wsgi
 ```
 python-3.5.5
 ```
+
+## Herokuにログイン
+```
+heroku login
+```
+
+## アプリケーションの命名
+```
+heroku create selectfromwheres-blog
+
+# 変更したい場合は
+heroku apps:rename the-new-name
+```
+
+## herokuにプッシュ
+```
+git push heroku master
+```
