@@ -1,25 +1,30 @@
 # Django Girls Tutorial
 
-チュートリアルの実践
+チュートリアルの実践。  
+ブログサイトを構築して、Herokuでデプロイする。
 
+```
 Python  : 3.5.5 :: Anaconda custom (x86_64)
 Django  : 1.11
-
+```
 
 # 以下、実践時のメモ
 
-## 仮想環境の作成
+## 仮想環境の作成とアクティベート
 ```
+# "myvenv" という名称で、仮想環境を作成
 python3 -m venv myvenv
-```
 
-## 仮想環境の使用
-```
+# 仮想環境のアクティベート
 source myvenv/bin/activate
 ```
 
 ## Djangoのインストール
 ```
+# 最新バージョンのpipをインストール
+pip install --upgrade pip
+
+# Djangoのインストール
 pip install django==1.11
 ```
 
@@ -30,29 +35,43 @@ django-admin startproject mysite .
 
 # 出来上がるディレクトリ構成
 Django_Tutorial
-├── manage.py         -- サイト管理用のスクリプト
+├── manage.py         -- プロジェクト管理用のスクリプト
 └── mysite            -- サイトの設定ファイル
     ├── __init__.py
-    ├── settings.py
-    ├── urls.py       -- urlresolverをつかったURLのパターンのリストを含む
-    └── wsgi.py
+    ├── settings.py   -- プロジェクトの設定ファイル
+    ├── urls.py       -- URL宣言。サイトの目次
+    └── wsgi.py       -- Webサーバーとのエントリーポイント
+
+# WSGI(Web Server Gateway Interface)とは
+PythonにおけるWebサーバーとWebアプリケーションを接続するための、標準化されたインターフェース定義
+```
+
+## プロジェクトの各種設定（settings.pyの編集）
+```
+# 該当の箇所を以下に修正する
+LANGUAGE_CODE = 'ja-JP'   -- 言語
+TIME_ZONE = 'Asia/Tokyo'  -- タイムゾーン
+USE_TZ = False            -- タイムゾーンを固定する
 ```
 
 ## データベースの作成
 ```
+# manage.pyと同じディレクトリで実行
 python manage.py migrate
 ```
 
 ## サーバーの起動
 ```
+# サーバの起動
 python manage.py runserver
 
 # サイトの動作確認（Chromeでアクセス）
 http://127.0.0.1:8000/
 ```
 
-## ブログディレクトリの作成
+## ブログアプリケーションの作成
 ```
+# "blog"の名称でアプリケーションを作成
 python manage.py startapp blog
 
 
@@ -74,20 +93,34 @@ djangogirls
     ├── settings.py
     ├── urls.py
     └── wsgi.py
+
+# settings.pyのINSTALLED_APPSに'blog'を追加
+INSTALLED_APPS = [
+    'django.contrib.admin',
+    # 略
+    'blog'
+]
+
+# blog/models.py でモデルを作成
 ```
 
-## データベースにモデル用のテーブルを作る
+## データベースにモデルを認識させる
 ```
+# blog/models.pyの変更を認識させる
 python manage.py makemigrations blog
-```
 
-## データベースに格納されたモデルを確認する
-```
+# データベースに格納されたモデルを確認する
 python manage.py migrate blog
 ```
 
 ## サイト管理者の作成
 ```
+# blog/admin.py を編集して、作成したPostモデルをadminページで見れるようにする
+from django.contrib import admin
+from .models import Post
+admin.site.register(Post)
+
+# スーパーユーザの作成
 python manage.py createsuperuser
 ```
 
