@@ -6,8 +6,8 @@ from django.shortcuts import redirect
 
 # Create your views here.
 def post_list(request):
-    posts = Post.objects.filter(published_date__lte=timezone.now()).order_by('published_date')
-    return render(request, 'blog/post_list.html', {'posts': posts})
+    posts = Post.objects.filter(published_date__lte=timezone.now()).order_by('-published_date')   # 公開日順でソート
+    return render(request, 'blog/post_list.html', {'posts': posts})                               # rendarはblog/post_list.htmlのテンプレを使ってrequestの内容を出力
 
 def post_detail(request, pk):
     post = get_object_or_404(Post, pk=pk)

@@ -152,38 +152,26 @@ python-3.6.5
 # mysite/settings.py にHerokuのデータベース設定と、ローカルの設定を記述
 
 # mysite/wsgi.py にDjangoWhiteNoiseを使うための設定を書き加える
-```
 
-## Herokuにログイン
-```
+# Herokuにログイン
 heroku login
-```
 
-## アプリケーションの命名
-```
+# アプリケーションの命名
 heroku create selectfromwheres-blog
 
 # 変更したい場合は
 heroku apps:rename the-new-name
-```
 
-## herokuにプッシュ
-```
+# herokuにプッシュ
 git push heroku master
-```
 
-## herokuのウェブプロセスを起動
-```
+# herokuのウェブプロセスを起動
 heroku ps:scale web=1
-```
 
-## ブラウザでアプリを開く
-```
+# ブラウザでアプリを開く
 heroku open
-```
 
-## heroku上でのデータベースと管理者の作成
-```
+# heroku上でのデータベースと管理者の作成
 heroku run python manage.py migrate
 heroku run python manage.py createsuperuser
 ```
@@ -193,47 +181,39 @@ heroku run python manage.py createsuperuser
 python manage.py shell
 exit()
 ```
-## postモデルのインポート
-```
-from blog.models import Post
-# 全てのポストの表示
-Post.objects.all()
-```
 
-## userモデルのインポート
+## Django shellから記事を投稿する
 ```
+# postモデルのインポート
+from blog.models import Post
+
+# 全ての記事の表示
+Post.objects.all()
+
+# userモデルのインポート
 from django.contrib.auth.models import User
+
 # 登録されているユーザの確認
 User.objects.all()
-```
 
-## コンソールからポストを作成
-```
+# コンソールから記事を作成
 me = User.objects.get(username='select_from_where')
 Post.objects.create(author = me, title = 'Sample title', text = 'Test')
-# 全てのポストの表示
-Post.objects.all()
-```
 
-## ポストのフィルタリング
-```
-# 作成者
+# 作成者でフィルタリングした記事
 Post.objects.filter(author=me)
-# タイトル
+
+# タイトルでフィルタリングした記事
 Post.objects.filter(title__contains='title')
-# 公開済みのポスト
+
+# 公開済みの記事
 from django.utils import timezone
 Post.objects.filter(published_date__lte=timezone.now())
-```
 
-## ポストの公開
-```
+# 記事の公開
 post = Post.objects.get(id=1)
 post.publish()
-```
 
-## オブジェクトの並び替え
-```
 # 作成日による並び替え
 Post.objects.order_by('created_date')
 Post.objects.order_by('-created_date')    # 順序の入れ替え
