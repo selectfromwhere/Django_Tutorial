@@ -124,15 +124,13 @@ admin.site.register(Post)
 python manage.py createsuperuser
 ```
 
-## Herokuを使うために必要なパッケージのインストール
+## Herokuにデプロイする
 ```
+# Herokuを使うために必要なパッケージのインストール
 pip install dj-database-url gunicorn whitenoise
-```
 
-## requirements.txt（必要なPythonパッケージをHerokuに伝達する）の作成
-```
+# requirements.txt（必要なPythonパッケージをHerokuに伝達する）の作成
 pip freeze > requirements.txt
-
 
 # requirements.txt の中身
 dj-database-url==0.5.0
@@ -140,19 +138,20 @@ Django==1.11
 gunicorn==19.8.1
 pytz==2018.4
 whitenoise==3.3.1
-# Herokuで動かすのに必要なので追加
-psycopg2==2.5.4
-```
+# Herokuで動かすのに必要なので追加する
+psycopg2==2.7.4
 
-## Procfile（Herokuでどのコマンドを実行してウェブサイトをスタートするか指定する）
-```
-# 以下を記述
+# Procfileの作成して以下を記述（Herokuでどのコマンドを実行してウェブサイトをスタートするか指定する）
 web: gunicorn mysite.wsgi
-```
 
-## runtime.txt (使っているPythonのバージョンを伝える)
-```
-python-3.5.5
+# runtime.txt（Herokuに使っているPythonのバージョンを伝える）の作成
+python-3.6.5
+
+# ローカルとHerokuでデータベースの設定を分ける
+# mysite/local_settings.py にローカルのデータベース設定を記述
+# mysite/settings.py にHerokuのデータベース設定と、ローカルの設定を記述
+
+# mysite/wsgi.py にDjangoWhiteNoiseを使うための設定を書き加える
 ```
 
 ## Herokuにログイン
